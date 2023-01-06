@@ -24,16 +24,6 @@ async def ban(interaction : discord.Interaction, user : discord.Member, delete_m
     await user.ban(reason=reason, delete_message_seconds=delete_message_days * 86400)
     await interaction.response.send_message(embed=discord.Embed(description=f"Banned {user} for {reason}", color=0x50ff50), ephemeral=True)
 
-@bot.tree.command(name='purge', description='deletes a specific amount of messages')
-async def purge(interaction : discord.Interaction, amount : int):
-    if not interaction.user.guild_permissions.manage_messages:
-        await interaction.response.send_message(embed=discord.Embed(description="You don't have required permissions.", color=0xff5050))
-
-    await interaction.response.send_message(embed=discord.Embed(description=f'Deleting {amount} messages.', color=0xff5050))
-    await interaction.delete_original_response()
-    await interaction.channel.purge(limit=amount)
-    await interaction.followup.send(embed=discord.Embed(description=f'Deleted Messages!', color=0x50ff50))
-
 @bot.event
 async def on_message(message):
     if message.author.id == bot.user.id:
